@@ -47,8 +47,12 @@ public class ExceptionQuestion9 {
 				obj.getInput();
 				if (obj.isFull())
 					break;
-			} catch(Exception e) {
-				System.out.println("Invalid input: "+e);
+			} catch(MarkException e) {
+				System.out.println("Invalid input");
+				MarkExceptionHandler handler = new MarkExceptionHandlerImpl();
+				e.handle(handler);
+			}catch(Exception e) {
+				System.out.println("Invalid input");				
 			}
 		}
 
@@ -56,21 +60,29 @@ public class ExceptionQuestion9 {
 	}
 
 }
+abstract class MarkException extends Exception{
+	abstract void handle(MarkExceptionHandler handler);
+}
 
-class MarkOutOfBoundException extends Exception {
+class MarkOutOfBoundException extends MarkException {
 	private String message;
 
 	MarkOutOfBoundException(String message) {
 		this.message = message;
 	}
-
+	
 	@Override
 	public String toString() {
 		return this.message;
 	}
+
+	@Override
+	void handle(MarkExceptionHandler handler) {
+		handler.handle(this);
+	}
 }
 
-class NegativeMarkException extends Exception {
+class NegativeMarkException extends MarkException {
 	private String message;
 
 	NegativeMarkException(String message) {
@@ -81,4 +93,27 @@ class NegativeMarkException extends Exception {
 	public String toString() {
 		return this.message;
 	}
+	@Override
+	void handle(MarkExceptionHandler handler) {
+		handler.handle(this);
+	}
+}
+
+interface MarkExceptionHandler{
+	void handle(MarkOutOfBoundException exception);
+	void handle(NegativeMarkException exception);
+}
+
+class MarkExceptionHandlerImpl implements MarkExceptionHandler{
+
+	@Override
+	public void handle(MarkOutOfBoundException exception) {
+		System.out.println("Marks cannot be greater than 100");
+	}
+
+	@Override
+	public void handle(NegativeMarkException exception) {
+		System.out.println("Marks cannot be negative");
+	}
+	
 }
