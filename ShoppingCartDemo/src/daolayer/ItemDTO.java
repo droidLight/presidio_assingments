@@ -6,6 +6,8 @@ public class ItemDTO implements Serializable, Cloneable {
 	private int itemid;
 	private String item_name;
 	private String item_unit;
+	private String imagePath;	
+	private String category;
 	private float price;
 	private static ItemDTO itemDTO;
 
@@ -73,6 +75,22 @@ public class ItemDTO implements Serializable, Cloneable {
 		this.price = 0f;
 	}
 
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

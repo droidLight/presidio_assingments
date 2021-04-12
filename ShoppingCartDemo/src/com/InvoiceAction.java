@@ -12,11 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import daolayer.DBUtility;
+import daolayer.InvoiceObjDAO;
+import daolayer.InvoiceObjDAOImpl;
 import daolayer.InvoiceTransDAOImpl;
 import daolayer.ItemDAOImpl;
 import daolayer.ItemDTO;
 import models.Invoice;
 import servicelayer.InventoryServiceImpl;
+import servicelayer.InvoiceObjService;
+import servicelayer.InvoiceObjServiceImpl;
 import servicelayer.InvoiceServiceImpl;
 import generators.EmailGenerator;
 import generators.Generator;
@@ -43,6 +47,10 @@ public class InvoiceAction extends Action {
 		InvoiceTransDAOImpl dao = InvoiceTransDAOImpl.getInstance(connection);
 		InvoiceServiceImpl invoiceServiceImpl = InvoiceServiceImpl.getInstance(dao);
 
+		//saving invoice obj as blob in db
+		InvoiceObjDAO invoiceObjDAO = InvoiceObjDAOImpl.getInstance(connection);
+		InvoiceObjService invoiceObjService = InvoiceObjServiceImpl.getInstance(invoiceObjDAO);
+		
 		// get invoice object
 		Invoice invoice = generateInvoice(itemIds, quantities, invoiceId);
 
@@ -62,13 +70,15 @@ public class InvoiceAction extends Action {
 				} else if (paramName.equals("xls")) {
 					generator = SpreadsheetGenerator.getInstance();
 				}
-				generator.setInvoice(invoice);
-				generator.execute("C:\\users\\VC\\Documents\\");
-
+				if(generator != null) {
+					generator.setInvoice(invoice);
+					generator.execute("C:\\users\\VC\\Documents\\");
+				}
+			
 			}
 		}
 
-		if (invoiceServiceImpl.saveInvoice(invoiceId, itemIds, quantities)) {
+		if (invoiceServiceImpl.saveInvoice(invoiceId, itemIds, quantities) && invoiceObjService.saveInvoice(invoice)) {
 			return "invoice.success";
 
 		} else {

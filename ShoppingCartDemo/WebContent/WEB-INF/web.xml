@@ -19,4 +19,19 @@
     <servlet-name>ActionServlet</servlet-name>
     <url-pattern>/actionservlet</url-pattern>
   </servlet-mapping>
+  <filter>
+    <display-name>MySessionFilter</display-name>
+    <filter-name>MySessionFilter</filter-name>
+    <filter-class>com.MySessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>MySessionFilter</filter-name>
+    <url-pattern>/actionservlet</url-pattern>
+  </filter-mapping>
+  <listener>
+  	<listener-class>com.MySessionListener</listener-class>
+  </listener>
+  <session-config>
+  	<session-timeout>1</session-timeout>
+  </session-config>
 </web-app>

@@ -46,6 +46,8 @@ public class ItemDAOImpl implements ItemDAO, Cloneable {
 			item.setItemid(res.getInt("itemid"));
 			item.setItemUnit(res.getString("itemunit"));
 			item.setPrice(res.getFloat("price"));
+			item.setImagePath(res.getString("img"));
+			item.setCategory(res.getString("category"));
 			st.close();
 			return item;
 		} else {
@@ -68,7 +70,9 @@ public class ItemDAOImpl implements ItemDAO, Cloneable {
 			item.setItemid(res.getInt("itemid"));
 			item.setItemUnit(res.getString("itemunit"));
 			item.setPrice(res.getFloat("price"));
-
+			item.setImagePath(res.getString("img"));
+			item.setCategory(res.getString("category"));
+			
 			itemList.add(item);
 		}
 		st.close();
@@ -78,12 +82,14 @@ public class ItemDAOImpl implements ItemDAO, Cloneable {
 
 	@Override
 	public int insertItem(ItemDTO itemDTO) throws Exception {
-		PreparedStatement st = this.connection.prepareStatement("insert into itemmaster values(?, ?, ?, ?)");
+		PreparedStatement st = this.connection.prepareStatement("insert into itemmaster values(?, ?, ?, ?, ?, ?)");
 		st.setInt(1, itemDTO.getItemid());
 		st.setString(2, itemDTO.getItemName());
 		st.setString(3, itemDTO.getItemUnit());
 		st.setFloat(4, itemDTO.getPrice());
-
+		st.setString(5, itemDTO.getImagePath());
+		st.setString(6, itemDTO.getCategory());
+		
 		int rowsAffected = st.executeUpdate();
 		st.close();
 		return rowsAffected;
@@ -97,7 +103,6 @@ public class ItemDAOImpl implements ItemDAO, Cloneable {
 		st.setString(2, itemDTO.getItemUnit());
 		st.setFloat(3, itemDTO.getPrice());
 		st.setInt(4, itemDTO.getItemid());
-		;
 
 		int rowsAffected = st.executeUpdate();
 		st.close();
@@ -120,6 +125,30 @@ public class ItemDAOImpl implements ItemDAO, Cloneable {
 		int rowsAffected = st.executeUpdate();
 		st.close();
 		return rowsAffected;
+	}
+
+	@Override
+	public List<ItemDTO> getByCategory(String category) throws Exception {
+		List<ItemDTO> itemList = new ArrayList<>();
+		PreparedStatement st = this.connection.prepareStatement("select * from itemmaster  where category=?");
+		st.setString(1, category);
+		
+		ResultSet res = st.executeQuery();
+		
+		while (res.next()) {
+			ItemDTO item = ItemDTO.getItemDTO();
+			item.setItemName(res.getString("itemname"));
+			item.setItemid(res.getInt("itemid"));
+			item.setItemUnit(res.getString("itemunit"));
+			item.setPrice(res.getFloat("price"));
+			item.setImagePath(res.getString("img"));
+			item.setCategory(res.getString("category"));
+			
+			itemList.add(item);
+		}
+		st.close();
+		res.close();
+		return itemList;
 	}
 
 }

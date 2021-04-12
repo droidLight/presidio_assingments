@@ -21,6 +21,6 @@
 			
 			<input type="submit" value="Generate Invoice"/>
 		</form>
-	</center>
+	</center>	
 </body>
 </html>

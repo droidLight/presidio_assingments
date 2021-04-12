@@ -17,7 +17,7 @@
 		<input type="hidden" name="formid" value="shop"> <input
 			type="hidden" name="shopid" value="shop1">
 			
-			<custom:inventorylist shop="1"/><br/><br/>
+			<custom:inventorylist shop="shop1"/><br/><br/>
 		<input type="submit" value="Next shop..">
 	</form>
 </body>

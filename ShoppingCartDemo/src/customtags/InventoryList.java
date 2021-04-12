@@ -31,20 +31,35 @@ public class InventoryList extends TagSupport {
 			Connection connection = DBUtility.getConnection("", "", "", "");
 			InventoryServiceImpl inventoryServiceImpl = InventoryServiceImpl
 					.getInstance(ItemDAOImpl.getInstance(connection));
-			List<ItemDTO> items = inventoryServiceImpl.getAllItems();
-			// session.setAttribute("allItems", items);
-
+			List<ItemDTO> items = inventoryServiceImpl.getByCategory(shop);
+			
+			out.write("<table>");
 			for (ItemDTO item : items) {
 				String sq = "\"";
 				String checkBoxName = ""+item.getItemid();
 				String checkBoxValue = item.getItemName();
 				String quantityName ="quantity_"+item.getItemid();
-								
-				out.write("<h4>"+item.getItemName()+"</h4>");
-				out.write("<input type=\"checkbox\" name="+sq+checkBoxName+sq+" value="+sq+checkBoxValue+sq+"/>");
-				out.write("<input type=\"text\" name="+sq+quantityName+sq+" placeholder=\"Enter the quantity\"/>");
+				String imagePath = item.getImagePath();
 				
+				out.write("<tr>");
+				out.write("<td>");
+				out.write("<img width=\"100\" height=\"100\" src="+sq+imagePath+sq+">");
+				out.write("</td>");
+				
+				out.write("<td>");
+				out.write("<h4>"+item.getItemName()+"</h4>");
+				out.write("</td>");
+				
+				out.write("<td>");
+				out.write("<input type=\"checkbox\" name="+sq+checkBoxName+sq+" value="+sq+checkBoxValue+sq+"/>");
+				out.write("</td>");
+				
+				out.write("<td>");
+				out.write("<input type=\"text\" name="+sq+quantityName+sq+" placeholder=\"Enter the quantity\"/>");
+				out.write("</td>");
+				out.write("</tr>");
 			}
+			out.write("</table>");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

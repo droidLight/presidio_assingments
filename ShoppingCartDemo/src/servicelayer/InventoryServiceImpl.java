@@ -40,6 +40,12 @@ public class InventoryServiceImpl implements InventoryService, Cloneable{
 	}
 
 	@Override
+	public List<ItemDTO> getByCategory(String category) throws Exception{
+		List<ItemDTO> itemList = this.itemDAO.getByCategory(category);
+		return itemList;
+	}
+	
+	@Override
 	public ItemDTO getItem(Integer itemId) throws Exception {
 		ItemDTO item = this.itemDAO.findById(itemId);		
 		return item;
