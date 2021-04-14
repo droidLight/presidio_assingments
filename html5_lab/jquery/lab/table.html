@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>jQuery Labs</title>
+    <script type="text/javascript" src="../jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("tbody tr:even").css("background", "yellow");
+            $("tbody tr:odd").css("background", "green");
+
+            var headRow = $("thead tr");
+            headRow.css("background",  "black");
+            headRow.css("color", "white");
+        });
+    </script>
+
+</head>
+
+<body>
+    <!-- Body HTML here -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>John Doe</td>
+                <td>19</td>
+            </tr>
+
+            <tr>
+                <td>Jane Doe</td>
+                <td>21</td>
+            </tr>
+            <tr>
+                <td>Mary Doe</td>
+                <td>22</td>
+            </tr>
+            <tr>
+                <td>Superman</td>
+                <td>222</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

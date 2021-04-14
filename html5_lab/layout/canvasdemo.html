@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Canvas demo</title>
+
+        <script>
+            function drawOnCanvas(){
+                console.log("drawOnCanvas");
+                var canvas = document.getElementById("canvas-1");
+                var ctx = canvas.getContext("2d");
+
+                //square
+                ctx.fillStyle = "#00FF00";
+                ctx.fillRect(50, 50,  100, 200);
+
+                //line
+                ctx.moveTo(50, 50);
+                ctx.lineTo(150, 250);
+                ctx.moveTo(150, 50);
+                ctx.lineTo(50, 250);
+                ctx.strokeStyle="#FFFFFF";
+                ctx.stroke();
+            }
+        </script>
+    </head>
+
+    <body onload="drawOnCanvas()">
+        <canvas id="canvas-1" width="300" height="300" style="border: 1px dashed black">
+            Your browser does not support HTML5
+        </canvas>
+    </body>
+</html>

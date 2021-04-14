@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="../jquery-1.10.2.min.js"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("p").text("This modifies <p> tag");
+        });
+
+        $(function () {
+            console.log("called");
+            $("#p1").text("Hello world");
+        });
+
+        //iterating over selected collection
+        $(function () {
+            $("p").each(function (index) {
+                $(this).text(`id of the tag: ${this.id}, index of the tag: ${index}`);
+            });
+        });
+
+        $(function(){
+            $(".highlight").css("background", "yellow");
+        });
+    </script>
+</head>
+
+<body>
+    <p id="p1"></p>
+    <p id="p2"></p>
+    <p id="p3"></p>
+    <p id="p4"></p>
+    <br/><br/>
+    <p class="highlight">Highlighted paragraph</p>
+</body>
+
+</html>

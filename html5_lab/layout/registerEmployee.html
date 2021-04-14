@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<style type="text/css">
+    :required,:invalid {
+        background-color: red;
+    }
+
+    :valid {
+        background-color: green;
+    }
+</style>
+
+
+<head>
+    <meta charset="utf-8" />
+    <title>Register Employee</title>
+</head>
+
+<body>
+    <h1>Employee Registration form</h1>
+    <form action="thankyou.html">
+        <label for="full-name">First name</label><br />
+        <input type="text" name="full-name" id="full-name" placeholder="Enter your full name" autofocus
+            required />*<br />
+        <br />
+        <label for="email">Email</label><br />
+        <input type="email" name="email" id="email" placeholder="Enter your email adress" required />*<br />
+        <br />
+        <label for="dob">Date of Birth</label><br />
+        <input type="date" name="dob" id="dob" required />*<br />
+        <br />
+        <label for="age">Age</label><br />
+        <input type="number" name="age" size="6" min="18" max="100" step="1" value="21" />*<br />
+        <br />
+        <label for="exp">Years of Experience</label><br />
+        <input type="range" name="exp" min="0" max="30" step="1" value="0" oninput="expoutput.value=exp.value" />*
+        <output name="expoutput"></output>
+
+        <br />
+        <label for="phone">Phone number</label><br />
+        <input type="text" name="phone" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="xxx-xxx-xxxx"
+            required />*<br />
+        <br />
+        <input type="submit" value="Register">
+        <p>Fields with * are required</p>
+    </form>
+</body>
+
+<script>
+    /*function setYearsOfExp(slider) {
+        document.getElementById("expoutput").innerText = slider.value;
+    }*/
+</script>
+
+</html>

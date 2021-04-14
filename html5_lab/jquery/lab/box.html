@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <title>Box sample</title>
+        <script type="text/javascript" src="../jquery-1.10.2.min.js"></script>
+
+        <script>
+            $(function(){
+                var box  = $("div.box")
+                box.css("border-style", "solid");
+                box.css("border-width", "2px");
+                
+                var title = $("div.box div:first-child");
+                title.css("background", "black");
+                title.css("color", "white");
+            });
+        </script>
+    </head>
+
+    <body>
+        <div class="box">
+            <div>This is a title</div>
+            <div>This is the body of the box<br/>Line 2 of the body</div>
+        </div>
+    </body>
+</html>
