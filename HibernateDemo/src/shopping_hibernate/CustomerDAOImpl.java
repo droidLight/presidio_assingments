@@ -98,8 +98,8 @@ public class CustomerDAOImpl implements CustomerDAO, Cloneable {
 	}
 
 	@Override
-	public int deleteCustomer(Integer customerId) throws Exception {
-		Session session = HibernateSessionUtility.getSession();
+	public int deleteCustomer(Integer customerId) throws Exception {		
+		Session session = HibernateSessionUtility.getSession();		
 		Query query = session.createQuery("delete from customer where customerId=:id");
 		
 		query.setParameter("id", customerId);

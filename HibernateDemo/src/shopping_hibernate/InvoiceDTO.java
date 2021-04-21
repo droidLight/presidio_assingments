@@ -2,11 +2,15 @@ package shopping_hibernate;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -19,6 +23,10 @@ public class InvoiceDTO implements Serializable, Cloneable {
 	private int invoiceId;
 	private int customerId;
 	private Date invoiceDate;
+	
+	@OneToMany(cascade=CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "invoice")
+	private List<InvoiceTransDTO> invoiceTransactions;
+		
 	@Transient
 	private static InvoiceDTO instance;
 
@@ -71,6 +79,14 @@ public class InvoiceDTO implements Serializable, Cloneable {
 		this.invoiceDate = null;
 	}
 
+	public List<InvoiceTransDTO> getInvoiceTransactions() {
+		return invoiceTransactions;
+	}
+
+	public void setInvoiceTransactions(List<InvoiceTransDTO> invoiceTransactions) {
+		this.invoiceTransactions = invoiceTransactions;
+	}
+	
 	@Override
 	public String toString() {
 		return "Invoice id: " + this.invoiceId + "\tCustomer id: " + this.customerId + "\tInvoice date: "

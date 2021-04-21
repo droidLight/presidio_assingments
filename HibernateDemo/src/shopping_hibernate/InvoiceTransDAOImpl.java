@@ -33,13 +33,20 @@ public class InvoiceTransDAOImpl implements InvoiceTransDAO, Cloneable {
 		return instance.createClone();
 	}
 
+//	@Override
+//	public InvoiceTransDTO getInvoice(Integer invoiceId, Integer itemId) throws Exception {
+//		Session session = HibernateSessionUtility.getSession();
+//		InvoiceTransDTO invoiceTransDTO = (InvoiceTransDTO) session.get(InvoiceTransDTO.class, new TransactionCompKey(invoiceId, itemId));
+//		return invoiceTransDTO;
+//	}
+
 	@Override
-	public InvoiceTransDTO getInvoice(Integer invoiceId, Integer itemId) throws Exception {
+	public InvoiceTransDTO getTransaction(Integer transactionId) throws Exception {
 		Session session = HibernateSessionUtility.getSession();
-		InvoiceTransDTO invoiceTransDTO = (InvoiceTransDTO) session.get(InvoiceTransDTO.class, new TransactionCompKey(invoiceId, itemId));
+		InvoiceTransDTO invoiceTransDTO = (InvoiceTransDTO) session.get(InvoiceTransDTO.class, transactionId);
 		return invoiceTransDTO;
 	}
-
+	
 	@Override
 	public List<InvoiceTransDTO> getAllInvoiceTrans() throws Exception {
 		Session session = HibernateSessionUtility.getSession();
@@ -56,32 +63,36 @@ public class InvoiceTransDAOImpl implements InvoiceTransDAO, Cloneable {
 	}
 
 	@Override
-	public List<ItemDTO> getItemsInInvoice(Integer invoiceId) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<InvoiceTransDTO> getTransactionInInvoice(Integer invoiceId) throws Exception{
+		Session session = HibernateSessionUtility.getSession();
+		Query query = session.createQuery("from invoicetrans where invoiceId=:id");
+		query.setParameter("id", invoiceId);
+		
+		List<InvoiceTransDTO> result = new ArrayList<>();
+		List list = query.list();
+		HibernateSessionUtility.closeSession(null);
+		Iterator<InvoiceTransDTO> iter = list.iterator();
+		while(iter.hasNext()) {
+			result.add(iter.next());
+		}
+		return result;
 	}
 
 	@Override
 	public int insertInvoiceTrans(InvoiceTransDTO invoiceTrans) throws Exception {
 		Session session = HibernateSessionUtility.getSession();
 		session.save(invoiceTrans);
-		
-		Query query = session.createQuery("from invoicetrans i where i.compkey.invoiceId=:invId and i.compkey.itemId=:itemId");
-		query.setParameter("invId", invoiceTrans.getCompkey().getInvoiceId());
-		query.setParameter("itemId", invoiceTrans.getCompkey().getItemId());
-		
-		List list = query.list();
 		HibernateSessionUtility.closeSession(null);
-		return list.size();
+		return 1;
 	}
 
 	@Override
 	public int updateIvoiceTrans(InvoiceTransDTO invoiceTrans) throws Exception {
 		Session session = HibernateSessionUtility.getSession();
-		Query query = session.createQuery("update invoicetrans set qty=:qty where invoiceId=:invId and itemId=:itemId");
+		Query query = session.createQuery("update invoicetrans set itemId=:item, qty=:qty where transactionId=:id");
 		query.setParameter("qty", invoiceTrans.getQty());
-		query.setParameter("invId", invoiceTrans.getCompkey().getInvoiceId());
-		query.setParameter("itemId", invoiceTrans.getCompkey().getItemId());
+		query.setParameter("item", invoiceTrans.getItemId());
+		query.setParameter("id", invoiceTrans.getTransactionId());
 		
 		int rowsUpdated = query.executeUpdate();
 		HibernateSessionUtility.closeSession(null);
@@ -91,9 +102,8 @@ public class InvoiceTransDAOImpl implements InvoiceTransDAO, Cloneable {
 	@Override
 	public int deleteInvoiceTrans(InvoiceTransDTO invoiceTrans) throws Exception {
 		Session session = HibernateSessionUtility.getSession();
-		Query query = session.createQuery("delete from invoicetrans where invoiceId=:invId and itemid=:itemId");
-		query.setParameter("invId", invoiceTrans.getCompkey().getInvoiceId());
-		query.setParameter("itemId", invoiceTrans.getCompkey().getItemId());
+		Query query = session.createQuery("delete from invoicetrans where transactionId=:id");
+		query.setParameter("id", invoiceTrans.getTransactionId());
 		
 		int rowsUpdated = query.executeUpdate();
 		HibernateSessionUtility.closeSession(null);
@@ -110,5 +120,5 @@ public class InvoiceTransDAOImpl implements InvoiceTransDAO, Cloneable {
 		HibernateSessionUtility.closeSession(null);
 		return rowsUpdated;
 	}
-
+	
 }
