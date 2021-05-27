@@ -21,7 +21,7 @@ public class EmailSenderService extends UnicastRemoteObject implements EmailSend
 	@Override
 	public void sendEmail(String toEmail, String subject, String body) throws Exception, RemoteException {
 		String from = "121003262@sastra.ac.in";
-		String password = "IRONMAN!@#123";
+		String password = "password";
 		
 		Properties properties = System.getProperties();
 		properties.setProperty("mail.smtp.host", "smtp.gmail.com");
